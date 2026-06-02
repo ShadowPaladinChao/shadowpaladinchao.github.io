@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 
-const route = useRoute()
 const router = useRouter()
 
 // 文章内容数据 — 后续可抽到独立文件
