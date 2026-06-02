@@ -20,7 +20,7 @@ const toggleMenu = () => {
       <div class="hidden sm:flex items-center gap-8">
         <router-link to="/" class="text-gray-600 hover:text-purple-600 transition-colors">首页</router-link>
         <router-link to="/about" class="text-gray-600 hover:text-purple-600 transition-colors">关于</router-link>
-        <router-link to="/projects" class="text-gray-600 hover:text-purple-600 transition-colors">项目</router-link>
+        <router-link to="/notes" class="text-gray-600 hover:text-purple-600 transition-colors">笔记</router-link>
       </div>
 
       <!-- Mobile Menu Button -->
@@ -39,7 +39,7 @@ const toggleMenu = () => {
       <div class="flex flex-col px-6 py-4 gap-4">
         <router-link to="/" @click="isOpen = false" class="text-gray-600 hover:text-purple-600 transition-colors">首页</router-link>
         <router-link to="/about" @click="isOpen = false" class="text-gray-600 hover:text-purple-600 transition-colors">关于</router-link>
-        <router-link to="/projects" @click="isOpen = false" class="text-gray-600 hover:text-purple-600 transition-colors">项目</router-link>
+        <router-link to="/notes" @click="isOpen = false" class="text-gray-600 hover:text-purple-600 transition-colors">笔记</router-link>
       </div>
     </div>
   </nav>

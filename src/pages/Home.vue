@@ -15,10 +15,10 @@
       </p>
       <div class="flex gap-4 justify-center flex-wrap">
         <router-link
-          to="/projects"
+          to="/notes"
           class="px-8 py-3 bg-white text-purple-600 rounded-full font-semibold hover:bg-gray-100 transition-colors shadow-lg"
         >
-          查看项目
+          研究笔记
         </router-link>
         <router-link
           to="/about"
