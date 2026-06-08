@@ -1,0 +1,17 @@
+# ycquant 全局配置
+
+# 数据源
+data:
+  source: akshare    # akshare / tushare / baostock
+
+# 默认参数
+default:
+  start_date: "2024-01-01"
+  end_date: null     # null 表示今天
+  index: "000300"    # 基准指数（沪深300）
+
+# 回测
+backtest:
+  initial_cash: 1000000
+  commission: 0.0003   # 手续费率
+  slippage: 0.001      # 滑点
