@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
-"""航天电子 数据探索 — 日线+3年季度财报+图表+报告"""
+"""股票数据探索 — 日线+3年季度财报+图表+报告
+
+用法:
+  python explore_stock.py <代码> <名称> [起始日期] [结束日期]
+示例:
+  python explore_stock.py sz.002851 麦格米特
+  python explore_stock.py sh.600879 航天电子 2023-01-01 2025-12-31
+"""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -10,13 +17,28 @@ from data.storage import save_raw
 plt.rcParams["font.sans-serif"] = ["SimHei", "Microsoft YaHei", "Arial"]
 plt.rcParams["axes.unicode_minus"] = False
 
-STOCK_CODE = "sh.600879"; STOCK_NAME = "航天电子"
-START_DATE = "2024-06-09"; END_DATE = "2026-06-09"
-REPORT_DIR = Path(__file__).resolve().parent.parent / "research" / f"{STOCK_CODE}-{STOCK_NAME}" / "exploration-20260609"
-SAVE_NAME = "sh_600879"; REPORT_DIR.mkdir(parents=True, exist_ok=True)
+# === 命令行参数 ===
+if len(sys.argv) < 3:
+    print("用法: python explore_stock.py <代码> <名称> [起始日期] [结束日期]")
+    print("示例: python explore_stock.py sz.002851 麦格米特")
+    sys.exit(1)
+
+STOCK_CODE = sys.argv[1]
+STOCK_NAME = sys.argv[2]
+START_DATE = sys.argv[3] if len(sys.argv) > 3 else "2024-06-09"
+END_DATE = sys.argv[4] if len(sys.argv) > 4 else "2026-06-09"
+
+# 自动生成日期标签（用于目录名）
+from datetime import date
+TODAY = date.today().strftime("%Y%m%d")
+
+REPORT_DIR = Path(__file__).resolve().parent.parent / "research" / f"{STOCK_CODE}-{STOCK_NAME}" / f"exploration-{TODAY}"
+SAVE_NAME = STOCK_CODE.replace(".", "_")
+REPORT_DIR.mkdir(parents=True, exist_ok=True)
+
 FIELDS = "date,open,high,low,close,preclose,volume,amount,adjustflag,turn,tradestatus,pctChg,peTTM,pbMRQ,psTTM,pcfNcfTTM,isST"
 PERIODS = ["Q1","Q2单季","半年报","Q3","Q4单季","年报"]
-PERIOD_SUFFIX = ["Q1","Q2s","H1","Q3","Q4s","FY"]  # 对应df_q列名后缀
+PERIOD_SUFFIX = ["Q1","Q2s","H1","Q3","Q4s","FY"]
 PERIOD_COLORS = ["#3498db","#2980b9","#2ecc71","#f39c12","#e67e22","#e74c3c"]
 
 
@@ -55,7 +77,7 @@ def fetch_data():
 def fetch_quarterly():
     print("\n[1.5/4] 拉取季度财报(3年)..."); bs.login()
     raw = {}
-    for y in [2024, 2025]:  # baostock慢，只拉2年
+    for y in range(int(START_DATE[:4]), int(END_DATE[:4]) + 1):
         raw[y] = {}
         for q in [1,2,3,4]:
             p = {}; g = {}; b = {}
@@ -80,8 +102,7 @@ def fetch_quarterly():
 
     # 衍生6报告期
     rows = []
-    for y in [2024, 2025]:
-        qs = raw.get(y, {})
+    for y in range(int(START_DATE[:4]), int(END_DATE[:4]) + 1):
         v = lambda q, k: qs.get(q, {}).get(k)
         # 累计类指标
         rv = {}  # 6个报告期数据
@@ -243,7 +264,7 @@ def generate_report(df, df_q, info, stats, ci):
 
     md = f"""# {STOCK_NAME} 数据探索报告（{df.index[-1].strftime('%Y-%m-%d')}）
 
-> 生成:2026-06-09 | 数据:{df.index[0].date()}~{df.index[-1].date()}({len(df)}日) | 来源:baostock(前复权)
+> 生成:{TODAY[:4]}-{TODAY[4:6]}-{TODAY[6:8]} | 数据:{df.index[0].date()}~{df.index[-1].date()}({len(df)}日) | 来源:baostock(前复权)
 
 ---
 
