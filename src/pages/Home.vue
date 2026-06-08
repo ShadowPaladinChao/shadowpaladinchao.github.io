@@ -10,9 +10,7 @@
       <p class="text-xl sm:text-2xl mb-4 opacity-90">
         欢迎来到我的个人网站
       </p>
-      <p class="text-lg opacity-75 mb-8">
-        Vue + TypeScript + Tailwind CSS 强力驱动
-      </p>
+
       <div class="flex gap-4 justify-center flex-wrap">
         <router-link
           to="/notes"
