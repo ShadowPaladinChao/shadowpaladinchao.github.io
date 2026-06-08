@@ -235,8 +235,7 @@ const goBack = () => {
                 </thead>
                 <tbody>
                   <tr v-for="(row, ri) in section.table.rows" :key="ri"
-                    class="border-b border-gray-100 last:border-0 transition-colors hover:bg-purple-50/30"
-                    :class="ri % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'">
+                    class="border-b border-gray-100 last:border-0 transition-colors hover:bg-purple-50/30 odd:bg-white even:bg-gray-50/50">
                     <td v-for="(cell, ci) in row" :key="ci"
                       class="py-2.5 px-4 first:pl-5 last:pr-5 first:bg-gray-100/50 first:font-semibold first:text-gray-800"
                       :class="[ci === 0 ? '' : 'text-right font-mono tabular-nums', typeof cell === 'object' ? cell.color : 'text-gray-700']">
